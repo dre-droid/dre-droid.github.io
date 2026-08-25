@@ -1,0 +1,16 @@
+.DS_Store
+node_modules/
+*.log
+.venv/
+
+# Andrea's CV — not part of the site (the site is the CV). Left on disk; never
+# commit it: it holds a phone number and this repo is public.
+CV.pdf
+__pycache__/
+*.pyc
+
+# Source media masters — only the encoded derivatives belong in the repo.
+resources/
+*.swp
+*.swo
+*~

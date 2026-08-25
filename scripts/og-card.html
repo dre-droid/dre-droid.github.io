@@ -1,0 +1,71 @@
+<!doctype html>
+<!--
+  Source for assets/img/og.jpg — the card that renders when the site's link is
+  pasted into LinkedIn or a message. Kept as a page rather than drawn by a script
+  so it carries the real typeface and the real scan. Render it with:
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless --disable-gpu --hide-scrollbars --window-size=1200,630 \
+      --screenshot=/tmp/og.png "file://$PWD/scripts/og-card.html"
+    ffmpeg -y -i /tmp/og.png -q:v 3 assets/img/og.jpg
+
+  Keep the copy in step with the hero. A stale card is worse than no card: it is
+  the first thing a recruiter sees and the last thing anyone thinks to check.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 400;
+    src: url('../assets/fonts/plex-mono-400.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono'; font-style: normal; font-weight: 500;
+    src: url('../assets/fonts/plex-mono-500.woff2') format('woff2');
+  }
+  :root {
+    --bg: #0e1116; --fg: #f3f5f8; --fg-mid: #c8ced8; --fg-dim: #9aa4b2;
+    --accent: #6ee7c7; --rule: #2b323e;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden;
+    background: var(--bg); color: var(--fg);
+    font-family: var(--mono); position: relative;
+  }
+  .scan {
+    position: absolute; inset: 0 0 0 42%;
+    background: url('../assets/img/pointcloud-poster.jpg') center/cover no-repeat;
+  }
+  /* Fade the scan into the page so the type never sits on busy pixels. */
+  .scan::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to right, var(--bg) 0%, rgba(14,17,22,.72) 34%, rgba(14,17,22,.42) 100%);
+  }
+  .body { position: relative; z-index: 2; padding: 76px 64px; max-width: 760px; }
+  h1 {
+    font-weight: 500; font-size: 62px; line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 34px 0 32px; width: 380px; }
+  .claim { font-size: 27px; line-height: 1.5; color: var(--fg-mid); max-width: 19ch; }
+  .claim em { font-style: normal; color: var(--accent); }
+  .cred {
+    position: absolute; left: 64px; bottom: 66px; z-index: 2;
+    font-size: 15px; letter-spacing: 0.05em; color: var(--fg-dim);
+  }
+</style>
+</head>
+<body>
+  <div class="scan"></div>
+  <div class="body">
+    <h1>Andrea<br>Mastroberti</h1>
+    <hr>
+    <p class="claim">Building machines that understand the world —
+      <em>without being told what's in it.</em></p>
+  </div>
+  <p class="cred">MS Computer Science, Politecnico di Milano · graduating December 2026</p>
+</body>
+</html>

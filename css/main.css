@@ -1,0 +1,492 @@
+/* ============================================================
+   Andrea Mastroberti — personal site
+   IBM Plex, self-hosted: no third-party request, works offline.
+   Mono carries the structure (name, headings, labels); sans carries the prose.
+   ============================================================ */
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../assets/fonts/plex-mono-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('../assets/fonts/plex-mono-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette. Lifted off pure black: the near-black version read as heavy and the
+     mid-greys sat too close together. Still dark enough for the point cloud. */
+  --bg:        #0e1116;
+  --bg-1:      #151a21;
+  --bg-2:      #1c212b;
+  --rule:      #2b323e;
+  --rule-soft: #202630;
+
+  --fg:        #f3f5f8;
+  --fg-mid:    #c8ced8;
+  --fg-dim:    #9aa4b2;
+
+  --accent:    #6ee7c7;
+  --accent-dim:#3d8272;
+
+  /* One typeface for the whole page. Mono set at the same px reads larger and runs
+     wider than a proportional face, so the body size and the measure both come down
+     to compensate. */
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Fluid type */
+  --t-hero:  clamp(1.5rem, 4.9vw, 3.3rem);
+  --t-claim: clamp(1.1rem, 2.2vw, 1.6rem);
+  --t-h2:    clamp(1.2rem, 2.4vw, 1.8rem);
+  --t-h2-lg: clamp(1.4rem, 3vw, 2.2rem);
+  --t-body:  clamp(0.88rem, 1vw, 0.97rem);
+  --t-small: 0.815rem;
+
+  --gap:   clamp(1.25rem, 4vw, 3rem);
+  --sect:  clamp(3.25rem, 6vw, 5.25rem);
+  --wrap:  1140px;
+  --prose: 60ch;
+}
+
+/* ---------- reset-ish ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--mono);
+  font-size: var(--t-body);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+img, video, canvas { display: block; max-width: 100%; }
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.021em; line-height: 1.14; }
+p { margin: 0 0 1.15em; }
+p:last-child { margin-bottom: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  text-underline-offset: 3px;
+}
+a:hover { text-decoration-color: var(--accent); }
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--bg-2);
+  border: 1px solid var(--rule-soft);
+  border-radius: 4px;
+  padding: 0.08em 0.36em;
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sep { color: var(--fg-dim); padding: 0 0.15em; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--accent); color: var(--bg);
+  padding: 0.7em 1.1em; font-weight: 600;
+}
+.skip-link:focus { left: 0; }
+
+/* Shared section shell */
+.now, .work, .also, .contact {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gap);
+}
+
+/* ============================================================
+   TOP NAV
+   ============================================================ */
+.topnav {
+  position: sticky; top: 0; z-index: 40;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s, background 0.25s;
+}
+.topnav__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding: 0.7rem var(--gap);
+  font-size: var(--t-small);
+}
+.topnav.is-scrolled { border-bottom-color: var(--rule); }
+.topnav__name {
+  color: var(--fg); font-weight: 600; letter-spacing: -0.01em;
+  text-decoration: none;              /* it is the masthead, not a prose link */
+  padding-block: 0.25rem;
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+.topnav.is-scrolled .topnav__name { opacity: 1; transform: none; pointer-events: auto; }
+.topnav__list {
+  display: flex; gap: clamp(0.75rem, 2.2vw, 1.6rem);
+  list-style: none; margin: 0; padding: 0; margin-left: auto;
+}
+/* Pad to clear the 24px WCAG 2.2 minimum target; bare 16px text is too small to hit. */
+.topnav__list a { color: var(--fg-dim); display: block; padding-block: 0.35rem; text-decoration: none; }
+.topnav__list a:hover { color: var(--fg); text-decoration: none; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: min(86vh, 780px);
+  display: flex; align-items: flex-end;
+  margin-top: -3.1rem;            /* slide under the transparent nav */
+  padding: 0 var(--gap) clamp(3rem, 7vw, 5.5rem);
+  overflow: hidden;
+}
+.hero__viz {
+  position: absolute; inset: 0; z-index: 0;
+  /* Fallback field behind the canvas: keeps the hero from reading as a black
+     rectangle if the cloud never loads. */
+  background:
+    radial-gradient(120% 80% at 72% 42%, #101a22 0%, var(--bg) 62%),
+    var(--bg);
+}
+.hero__poster,
+.hero__canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+/* Inert until the viewer initialises — see initHero(). An opacity:0 canvas still
+   receives touches, so a failed viewer would otherwise block scrolling. */
+.hero__canvas { opacity: 0; pointer-events: none; transition: opacity 0.9s ease; }
+.hero__viz.is-live .hero__canvas { opacity: 1; }
+.hero__viz.is-live .hero__poster { opacity: 0; transition: opacity 0.9s ease; }
+
+/* Scrim: keeps the claim legible over sparse point data. The left ramp is the
+   one doing real work — the name sits directly on top of the cloud. */
+.hero__viz::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to top, var(--bg) 1%, color-mix(in srgb, var(--bg) 70%, transparent) 34%, transparent 68%),
+    linear-gradient(to right,
+      color-mix(in srgb, var(--bg) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 74%, transparent) 26%,
+      transparent 62%);
+}
+
+.hero__vizlabel {
+  position: absolute; right: var(--gap); top: 4.6rem; margin: 0; z-index: 2;
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--fg-dim);
+}
+
+.hero__body { position: relative; z-index: 2; max-width: 46ch; }
+.hero__name {
+  font-family: var(--mono);
+  font-size: var(--t-hero);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 1.1;
+  padding-bottom: 0.55em;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 0.85em;
+}
+.hero__claim {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: var(--t-claim);
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+  color: var(--fg);
+  max-width: 34ch;
+  margin-bottom: 1.1em;
+}
+.hero__claim em { color: var(--accent); font-style: normal; }
+.hero__cred {
+  font-family: var(--mono);
+  font-size: var(--t-small);
+  color: var(--fg-dim);
+  margin-bottom: 1.5em;
+}
+.hero__links {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem;
+  list-style: none; margin: 0; padding: 0;
+  font-size: 0.94rem;
+}
+.hero__links a { color: var(--fg-mid); display: block; padding-block: 0.3rem; }
+.hero__links a:hover { color: var(--accent); text-decoration: none; }
+
+/* ============================================================
+   NOW
+   ============================================================ */
+.now {
+  padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: minmax(0, 8rem) minmax(0, var(--prose));
+  gap: 0.4rem var(--gap);
+}
+.now__h {
+  grid-row: 1 / span 2;
+  font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  padding-top: 0.45em;
+}
+.now p { color: var(--fg-mid); margin-bottom: 0.7em; }
+.now strong { color: var(--fg); font-weight: 600; }
+
+/* ============================================================
+   WORK SECTIONS
+   ============================================================ */
+.work { padding-block: var(--sect) 0; scroll-margin-top: 4.5rem; }
+.work__head { margin-bottom: clamp(1.6rem, 3vw, 2.2rem); }
+.work__kicker {
+  font-family: var(--mono); font-size: 0.74rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 0.9rem;
+}
+.work__kicker::before { content: "["; margin-right: 0.35em; color: var(--accent); opacity: 0.55; }
+.work__kicker::after  { content: "]"; margin-left: 0.35em;  color: var(--accent); opacity: 0.55; }
+/* Measure lives on the heading, not the wrapper: `ch` resolves against the
+   element's own font-size, and the wrapper's is 1rem while the heading's is ~3rem. */
+.work__h {
+  font-weight: 500; letter-spacing: -0.005em;
+  font-size: var(--t-h2); max-width: 24ch; line-height: 1.25;
+}
+.work--lead .work__h { font-size: var(--t-h2-lg); max-width: 21ch; }
+
+.work__body { max-width: var(--prose); color: var(--fg-mid); }
+.work__body strong { color: var(--fg); font-weight: 600; }
+.work__bridge {
+  margin-top: 1.6em;
+  padding-left: clamp(0.9rem, 2vw, 1.3rem);
+  border-left: 2px solid var(--accent-dim);
+  color: var(--fg-dim);
+  font-size: 0.96rem;
+}
+
+/* Verification links — the outbound evidence for a section's claims. */
+.work__links {
+  list-style: none; margin: 1.5em 0 0; padding: 0;
+  display: grid; gap: 0.4rem;
+  font-family: var(--mono); font-size: 0.82rem;
+}
+.work__links a {
+  color: var(--accent);
+  text-underline-offset: 4px;
+  display: inline-block; padding-block: 0.2rem;
+}
+.work__links a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+.work__links li::before { content: "↗ "; color: var(--accent-dim); }
+
+.work__figure { margin: clamp(2rem, 4vw, 3rem) 0 0; }
+/* A figure sitting mid-prose needs room underneath, or its caption collides with
+   the paragraph that follows. */
+.work__body .work__figure { margin-bottom: clamp(1.8rem, 3.5vw, 2.6rem); }
+.work__figure img,
+.work__figure video {
+  width: 100%; height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: var(--bg-1);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.work__figure figcaption {
+  margin-top: 0.75rem;
+  font-family: var(--mono); font-size: 0.7rem;
+  letter-spacing: 0.05em; color: var(--fg-dim);
+}
+.work__figure--inline { max-width: var(--prose); }
+
+/* A figure whose content must keep its own shape (the thesis point cloud is
+   nearly square) — never stretch or crop it into the 16:9 default. */
+.work__figure--natural img,
+.work__figure--natural video {
+  aspect-ratio: auto;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin-inline: auto;
+}
+
+/* The drone video swaps orientation with the viewport: the browser serves a
+   portrait loop on narrow screens and a landscape clip elsewhere, so the frame
+   must change shape to match instead of hard-cropping a 9:16 clip into 16:9. */
+.work__figure--video video {
+  aspect-ratio: 9 / 16;
+  max-height: 82vh;
+  object-fit: cover;
+}
+@media (min-width: 721px) {
+  .work__figure--video video {
+    aspect-ratio: 16 / 9;
+    max-height: none;
+  }
+}
+
+/* Complexity diagram (eSSIM) */
+.complexity {
+  border: 1px solid var(--rule); border-radius: 6px;
+  background: var(--bg-1);
+  padding: clamp(1.1rem, 3vw, 1.75rem);
+  display: grid; gap: 0.6rem;
+}
+.complexity__row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.55rem 0.9rem; }
+.complexity__label {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--fg-dim); min-width: 5.5rem;
+}
+.complexity__val {
+  font-size: 1.16rem; background: none; border: none; padding: 0;
+  color: var(--fg-dim); white-space: nowrap;
+}
+.complexity__row--after .complexity__val { color: var(--accent); }
+.complexity__note { font-size: 0.85rem; color: var(--fg-dim); }
+.complexity__arrow {
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em;
+  color: var(--accent-dim); padding-left: 0.1rem;
+}
+
+/* ============================================================
+   ALSO / TOOLS (shared definition-list styling)
+   ============================================================ */
+.also { padding-block: var(--sect) 0; }
+.also__h {
+  font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1.6rem;
+}
+.also__list {
+  margin: 0; display: grid; gap: 0;
+  border-top: 1px solid var(--rule);
+}
+.also__item {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: 0.3rem var(--gap);
+  padding-block: 1.15rem;
+  border-bottom: 1px solid var(--rule-soft);
+}
+.also__item dt { font-family: var(--mono); color: var(--fg); font-weight: 500; font-size: 0.88rem; }
+.also__item dd {
+  margin: 0; color: var(--fg-dim); font-size: 0.95rem; line-height: 1.6;
+}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact {
+  margin-top: var(--sect);
+  padding-block: clamp(3rem, 6vw, 4.5rem);
+  border-top: 1px solid var(--rule);
+}
+.contact__h { font-family: var(--mono); font-weight: 500; font-size: var(--t-h2); margin-bottom: 0.9rem; }
+.contact__lead { max-width: 46ch; color: var(--fg-mid); margin-bottom: 1.8rem; }
+.contact__links {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: 0.55rem;
+  font-family: var(--mono); font-size: 0.88rem;
+}
+/* These are the whole point of the section, so they should look clickable. */
+.contact__links a {
+  color: var(--accent);
+  display: inline-block;
+  padding-block: 0.25rem;
+  text-underline-offset: 4px;
+}
+.contact__links a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* nuScenes is CC BY-NC-SA, which requires attribution wherever the data appears. */
+.colophon {
+  margin-top: 2.75rem;
+  max-width: 66ch;
+  font-family: var(--mono); font-size: 0.7rem;
+  line-height: 1.9; letter-spacing: 0.04em;
+  color: var(--fg-dim);
+}
+.colophon a { color: var(--fg-dim); text-decoration-color: var(--rule); }
+.colophon a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  /* Stack rather than overlay. A full-bleed cloud behind the copy works at desktop
+     width, but in a portrait viewport it becomes a narrow centre crop of a wide
+     scene, half-hidden behind the name. Giving the scan its own band shows the
+     whole sweep and leaves the type on a clean background. */
+  .hero {
+    display: block;
+    min-height: 0;
+    margin-top: 0;                /* sits below the nav, not under it */
+    padding: 0 0 clamp(2rem, 7vw, 3rem);
+  }
+  .hero__viz {
+    position: relative;
+    inset: auto;
+    height: min(46vh, 360px);   /* leaves over half the viewport to scroll on */
+  }
+  /* Only a soft bottom fade is needed now — nothing sits on top of the cloud. */
+  .hero__viz::after {
+    background: linear-gradient(to top, var(--bg) 0%, transparent 45%);
+  }
+  .hero__body {
+    max-width: none;
+    padding: clamp(1.4rem, 5vw, 2rem) var(--gap) 0;
+  }
+  .hero__vizlabel {
+    top: auto; bottom: 0.5rem; right: var(--gap);
+    font-size: 0.62rem;
+  }
+  .now { grid-template-columns: 1fr; }
+  .now__h { grid-row: auto; padding-top: 0; margin-bottom: 0.3rem; }
+  .also__item { grid-template-columns: 1fr; gap: 0.25rem; }
+  .topnav__list { gap: 0.9rem; }
+  .topnav__name { display: none; }
+}
+
+@media (max-width: 420px) {
+  .topnav__list { font-size: 0.75rem; }
+}
+
+/* ============================================================
+   MOTION / PRINT
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .topnav, .hero__viz, .work__video { display: none; }
+  body { background: #fff; color: #000; }
+  a { color: #000; }
+  .hero { min-height: 0; margin-top: 0; padding: 0; }
+}

@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Andrea Mastroberti</title>
+<meta name="description" content="Andrea Mastroberti — MS Computer Science at Politecnico di Milano. Multimodal, self-supervised perception for autonomous vehicles, spatial computing and robotics.">
+<meta name="author" content="Andrea Mastroberti">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Andrea Mastroberti — building machines that understand the world">
+<meta property="og:description" content="Multimodal, self-supervised perception for autonomous vehicles, spatial computing and robotics. MS Computer Science, Politecnico di Milano.">
+<meta property="og:url" content="https://dre-droid.github.io/">
+<meta property="og:image" content="https://dre-droid.github.io/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="canonical" href="https://dre-droid.github.io/">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/main.css?v=4">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="topnav" aria-label="Sections">
+  <div class="topnav__inner">
+    <a class="topnav__name" href="#top">Andrea Mastroberti</a>
+    <ul class="topnav__list">
+      <li><a href="#thesis">Thesis</a></li>
+      <li><a href="#essim">FFmpeg</a></li>
+      <li><a href="#drone">Drone</a></li>
+      <li><a href="#pendulum">Pendulum</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ───────────────────────── HERO ───────────────────────── -->
+<header class="hero" id="top">
+  <div class="hero__viz" id="hero-viz" data-cloud="assets/data/scene.bin">
+    <picture>
+      <source srcset="assets/img/pointcloud-poster-mobile.jpg" media="(max-width: 720px)">
+      <img class="hero__poster" src="assets/img/pointcloud-poster.jpg" alt="">
+    </picture>
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+    <p class="hero__vizlabel">
+      <span data-viz-caption>nuScenes LiDAR sweep · drag to orbit</span>
+    </p>
+  </div>
+
+  <div class="hero__body">
+    <h1 class="hero__name">Andrea Mastroberti</h1>
+    <p class="hero__claim">
+      Building machines that understand the world —
+      <em>without being told what's in it.</em>
+    </p>
+    <p class="hero__cred">
+      MS Computer Science, Politecnico di Milano
+    </p>
+  </div>
+</header>
+
+<!-- ───────────────────────── NOW ───────────────────────── -->
+<section class="now" aria-label="Current status">
+  <h2 class="now__h">Now</h2>
+  <p>
+  MS thesis with <strong> <a href="https://aida.polimi.it/" rel="noopener">AIDA</a></strong> / <strong><a href="https://niulinx.ai" rel="noopener">Niulinx</a></strong>
+    — multimodal self-supervised pretraining for LiDAR and camera.
+  </p>
+  <p>
+    Graduating <strong>December 2026</strong>. Looking for embodied ML roles.
+  </p>
+</section>
+
+
+<!-- ───────────────────────── THESIS ───────────────────────── -->
+<section class="work work--lead" id="thesis">
+  <div class="work__head">
+    <p class="work__kicker">MS thesis <span class="sep">·</span> AIDA / Niulinx <span class="sep">·</span> in progress</p>
+    <h2 class="work__h">Self-supervised pretraining for urban autonomy</h2>
+  </div>
+
+  <div class="work__body">
+    <p>
+      Labelling 3D boxes across LiDAR sweeps and their matching camera frames is slow and
+      expensive. The raw driving data is free and piling up. The signal is already there —
+      it just has no labels on it.
+    </p>
+    <p>
+      My thesis pretrains on unlabelled LiDAR and camera <em>jointly</em>, adapting
+      <strong>UniTR</strong> — one transformer over both modalities rather than two
+      backbones fused late.
+    </p>
+    <p>
+      This comes with some challenges as well as many ideas to solve them: how do you
+      create labels yourself? What should the model learn and how to make sure that
+      it actually does? A simple idea is masked reconstruction, make the model predict
+      a corrupted signal - but this comes with the cost of learning noise; a more 
+      sophisticated approach is self-distillation - have two copies of the model and feed
+      them two views of the same scene, forcing their embeddings to match; clever but
+      even more susceptible to issues like collapsing representations, shortcuts and
+      stability over long training horizons. These issues aren't unique to driving,
+      they're general problems in SSL (self supervised learning). In AVs though the
+      hard part is structural, there are multiple input modalities.
+      LiDAR is sparse, irregular, metric; camera is dense,
+      regular, projective. Fusing them means choosing where in the network they meet, and
+      that choice constrains everything after it.
+    </p>
+    <p>
+      What surprised me though is how much of the difficulty is experimental rather than
+      conceptual. Evaluation gets expensive enough that ordinary practice breaks down:
+      instead of early-stopping on a patience counter, you may have to commit to an epoch
+      budget up front and accept leaving performance on the table. A simple evaluation may
+      not be so simple, nor cheap.
+    </p>
+
+    <p class="work__bridge">
+      Perception is an ubiquitous problem: depth and RGB fused without labels isn't 
+      specific to driving. It's close to what a
+      headset solves indoors.
+    </p>
+  </div>
+
+  <figure class="work__figure work__figure--natural">
+    <video class="work__video" autoplay muted loop playsinline preload="none"
+           poster="assets/img/thesis-poster.jpg" width="1392" height="876"
+           data-autoloop data-src="assets/video/thesis.mp4"
+           aria-label="Thirty training epochs of the model's learned features, side by side:
+                       a bird's-eye LiDAR feature map and three camera views, each coloured by
+                       the first three PCA components. Early epochs are near-random speckle; by
+                       the end the road surface, vegetation and buildings each hold their own
+                       colour, with no labels used at any point."></video>
+    <figcaption>Thirty epochs of pretraining, no labels anywhere. Features projected to RGB
+                by PCA, so colour means position in the representation: speckle at epoch 1,
+                and by epoch 30 the road, the vegetation and the buildings have each settled
+                into their own. This turns out to meaningfully outperform starting from scratch.</figcaption>
+  </figure>
+</section>
+
+<!-- ───────────────────────── eSSIM / FFMPEG ───────────────────────── -->
+<section class="work" id="essim">
+  <div class="work__head">
+    <p class="work__kicker">Google Summer of Code 2024 <span class="sep">·</span> FFmpeg</p>
+    <h2 class="work__h">Improving perceptual similarity metrics</h2>
+  </div>
+
+  <div class="work__body">
+    <p>
+      Selected for Google Summer of Code to implement <strong>enhanced SSIM</strong> in
+      <strong>FFmpeg</strong> — the video infrastructure sitting underneath effectively
+      every device that plays video.
+    </p>
+    <p>
+      The direct implementation evaluates every overlapping window independently:
+      <code>O(mnk²)</code> for an <code>m&times;n</code> frame and a <code>k&times;k</code>
+      window, so it degrades as the window grows. I rebuilt it around
+      <strong>summed-area tables</strong>, which reduce any window to four lookups no matter
+      how large it is — taking the window dimension out of the cost entirely.
+    </p>
+
+    <figure class="work__figure work__figure--inline">
+      <div class="complexity">
+        <div class="complexity__row">
+          <span class="complexity__label">Direct</span>
+          <code class="complexity__val">O(mnk²)</code>
+          <span class="complexity__note">cost grows with window size</span>
+        </div>
+        <div class="complexity__arrow" aria-hidden="true">↓ summed-area tables</div>
+        <div class="complexity__row complexity__row--after">
+          <span class="complexity__label">Rewritten</span>
+          <code class="complexity__val">O(mn)</code>
+          <span class="complexity__note">4 lookups per window, any <em>k</em></span>
+        </div>
+      </div>
+      <figcaption>Four lookups per window instead of <em>k</em>², so the cost of a window
+                  stops depending on how big it is.</figcaption>
+    </figure>
+
+    <p>
+      I also added Minkowski pooling at <code>p=3</code> and <code>p=4</code>, configurable
+      window size and stride, and multithreading, then took the patch through review on
+      ffmpeg-devel. 
+    </p>
+    <ul class="work__links">
+      <li><a href="https://gist.github.com/dre-droid/effd22ce0f7ed13914d446367b4bab64" rel="noopener">The implementation</a></li>
+      <li><a href="https://trac.ffmpeg.org/wiki/SponsoringPrograms/GSoC/2024/Results" rel="noopener">FFmpeg's GSoC 2024 results</a></li>
+      <li><a href="https://summerofcode.withgoogle.com/archive/2024/projects/erwtAKxC" rel="noopener">GSoC archive</a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ───────────────────────── DRONE CONTEST ───────────────────────── -->
+<section class="work" id="drone">
+  <div class="work__head">
+    <p class="work__kicker">Leonardo Drone Contest 2025 <span class="sep">·</span> 2nd nationwide</p>
+    <h2 class="work__h">A ground vehicle, a drone, and a camera that had to agree</h2>
+  </div>
+
+  <div class="work__body">
+    <p>
+      A UGV, a UAV and a fixed PTZ camera cooperating to navigate an unknown arena and
+      identify targets, with no human in the loop.
+    </p>
+    <p>
+      I owned the <strong>PTZ task</strong> — making a wall-mounted Pan-Tilt-Zoom camera 
+      an active sensor
+      that had to locate and decode 30 × 30 cm QR codes placed at random in the field. That
+      meant a policy to scan the arena intelligently and zoom in only on rough detections —
+      enough to find the codes in time, and to see them well enough to decode them.
+    </p>
+    <ul class="work__links">
+      <li><a href="https://www.repubblica.it/tecnologia/dossier/italian-tech-week-2025/2025/10/02/video/itw_25_-_premio_leonardo_la_cerimonia_di_premiazione_del_drone_contest-424885891/" rel="noopener">Second place nationwide</a></li>
+    </ul>
+  </div>
+
+  <figure class="work__figure work__figure--video">
+    <!-- Responsive sources: the two vertical clips stitched into one loop for
+         portrait screens, the horizontal clip for everything else. Chosen by the
+         browser's own media query, so a rotation/resize picks the right one. -->
+    <video class="work__video" autoplay muted loop playsinline preload="none"
+           poster="assets/img/drone-poster.jpg" width="1280" height="720"
+           data-autoloop data-poster-mobile="assets/img/drone-poster-mobile.jpg"
+           aria-label="Drone contest footage: the UGV, UAV and PTZ camera cooperating
+                       in the arena.">
+      <source data-src="assets/video/drone-mobile.mp4" media="(max-width: 720px)" type="video/mp4">
+      <source data-src="assets/video/drone-desktop.mp4" type="video/mp4">
+    </video>
+    <figcaption>The system in the arena. Footage of the contest.</figcaption>
+  </figure>
+</section>
+
+<!-- ───────────────────────── FURUTA PENDULUM ───────────────────────── -->
+<section class="work" id="pendulum">
+  <div class="work__head">
+    <p class="work__kicker">University lab project <span class="sep">·</span> RL <span class="sep">·</span> 3D printing <span class="sep">·</span> Raspberry Pi</p>
+    <h2 class="work__h">Furuta pendulum, from print to policy</h2>
+  </div>
+
+  <div class="work__body">
+    <p>
+      A rotary inverted pendulum built end to end: 3D-printed mechanism, wiring and
+      controller, with a swing-up and balance policy trained in Stable-Baselines3 and
+      deployed on a Raspberry Pi.
+    </p>
+    <p>
+      Policies trained in simulation didn't survive contact with the hardware; training
+      directly on the rig did. That gap — between a controller that works in simulation and
+      one that works on a bench — is the part of robotics I find most worth understanding.
+    </p>
+    <p>
+      It also taught me something simulation can't. The safety sensor was mounted on the
+      thing it was protecting: during one unattended run the rig spun out, tore free of the
+      sensor watching for exactly that condition, and kept going at full speed.
+    </p>
+
+    <p class="work__bridge">
+      Fault detection has to survive the fault. Anything sharing a failure mode with what it
+      monitors isn't monitoring it.
+    </p>
+  </div>
+
+  <figure class="work__figure">
+    <!-- No src until it scrolls into view: see initVideos() in js/main.js. -->
+    <video class="work__video" autoplay muted loop playsinline preload="none"
+           poster="assets/img/pendulum-poster.jpg" width="1280" height="720"
+           data-autoloop data-src="assets/video/pendulum.mp4"
+           aria-label="The Furuta pendulum running on the bench: the driven arm rotates
+                       and the pendulum rod swings, with the controller and power supply
+                       wired up beside it."></video>
+    <figcaption>The rig running, driven by the trained policy on the Pi.</figcaption>
+  </figure>
+</section>
+
+<!-- ───────────────────────── ALSO ───────────────────────── -->
+
+
+
+<!-- ───────────────────────── CONTACT ───────────────────────── -->
+<footer class="contact" id="contact">
+  <h2 class="contact__h">Get in touch</h2>
+  <ul class="contact__links">
+    <li><a href="mailto:andrea.mastroberti@outlook.com">andrea.mastroberti@outlook.com</a></li>
+    <li><a href="https://www.linkedin.com/in/andrea-mastroberti" rel="me noopener">linkedin.com/in/andrea-mastroberti</a></li>
+    <li><a href="https://github.com/dre-droid" rel="me noopener">github.com/dre-droid</a></li>
+  </ul>
+
+  <p class="colophon">
+    LiDAR sweeps and camera frames on this page come from the
+    <a href="https://www.nuscenes.org/" rel="noopener">nuScenes</a> dataset by Motional,
+    used under
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license noopener">CC BY-NC-SA 4.0</a>.
+    Built without a framework; source at
+    <a href="https://github.com/dre-droid/dre-droid.github.io" rel="noopener">dre-droid.github.io</a>.
+  </p>
+</footer>
+
+</main>
+
+<script type="module" src="js/main.js?v=3"></script>
+</body>
+</html>
