@@ -1,4 +1,4 @@
-# dre-droid.github.io
+# andrea-mastroberti.com
 
 Single-page personal site. Plain HTML, CSS and JS — no framework, no build step,
 no `npm install`. Editing a file and pushing is the entire deploy.
@@ -25,6 +25,11 @@ point cloud over HTTP and ES modules need a real origin.
 
 GitHub Pages, `main` / root. `.nojekyll` is present so Jekyll leaves `assets/`
 alone. `git push` and the site rebuilds.
+
+Served at `andrea-mastroberti.com`. The `CNAME` file is what binds the domain —
+**do not delete it**; Pages drops back to the `github.io` URL without it. DNS is
+at IONOS: four A and four AAAA records on the apex pointing at GitHub's edge,
+plus `www` as a CNAME.
 
 ## Assets
 
