@@ -52,6 +52,13 @@
   --sect:  clamp(3.25rem, 6vw, 5.25rem);
   --wrap:  1140px;
   --prose: 60ch;
+
+  /* Two-column sections: a left rail of headings and a right column of prose.
+     rail + gap + prose-wide is sized to consume the wrap almost exactly, so the
+     page stops being a narrow ribbon with the right third of every screen empty. */
+  --rail:      minmax(0, 21rem);
+  --rail-gap:  clamp(2rem, 4vw, 3.5rem);
+  --prose-wide: 68ch;
 }
 
 /* ---------- reset-ish ---------- */
@@ -429,6 +436,42 @@ code {
 }
 .colophon a { color: var(--fg-dim); text-decoration-color: var(--rule); }
 .colophon a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* ============================================================
+   TWO-COLUMN SECTIONS
+   ============================================================ */
+/* Below 900px the sections stack — a narrow viewport has no width to give away.
+   Above it the heading moves into a left rail shared by every section, so the
+   page reads as one column of labels beside one of prose. Figures still span the
+   full wrap: the thesis figure carries per-epoch labels that need the width. */
+@media (min-width: 900px) {
+  .work {
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    column-gap: var(--rail-gap);
+    align-items: start;
+  }
+  .work__head { grid-column: 1; margin-bottom: 0; }
+  .work__body { grid-column: 2; max-width: var(--prose-wide); }
+  .work__figure { grid-column: 1 / -1; }
+  /* The rail sets the measure now; a `ch` cap on the heading would fight it. */
+  .work__h, .work--lead .work__h { max-width: none; }
+
+  .now {
+    grid-template-columns: var(--rail) minmax(0, var(--prose-wide));
+    column-gap: var(--rail-gap);
+  }
+
+  .contact {
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    column-gap: var(--rail-gap);
+    align-items: start;
+  }
+  .contact__h { grid-column: 1; margin-bottom: 0; }
+  .contact__links { grid-column: 2; }
+  .colophon { grid-column: 2; margin-top: 2.25rem; max-width: var(--prose-wide); }
+}
 
 /* ============================================================
    RESPONSIVE
