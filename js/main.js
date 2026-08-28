@@ -383,6 +383,41 @@ async function initHero() {
   addEventListener('pagehide', () => cancelAnimationFrame(frame));
 }
 
+/* ---------------------------------------------------------------------------
+   Language toggle
+
+   English is the language on every load. No navigator.language sniffing, no
+   geo lookup, no stored preference — switching is an explicit act, and a
+   reload starts from English again.
+
+   Both languages live in the DOM and CSS hides one (see `:root[data-lang]`),
+   so this only flips an attribute. The exceptions are aria-labels, which
+   cannot be duplicated as elements; those carry a `data-aria-it` twin.
+--------------------------------------------------------------------------- */
+function initLang() {
+  const btn = document.querySelector('[data-lang-toggle]');
+  if (!btn) return;
+  const root = document.documentElement;
+  const labelled = [...document.querySelectorAll('[data-aria-it]')];
+  labelled.forEach((el) => { el.dataset.ariaEn = el.getAttribute('aria-label') || ''; });
+
+  function apply(lang) {
+    root.dataset.lang = lang;
+    root.lang = lang;                       // so screen readers switch voice
+    btn.setAttribute('aria-label',
+      lang === 'en' ? "Passa all'italiano" : 'Switch to English');
+    labelled.forEach((el) => {
+      el.setAttribute('aria-label', lang === 'it' ? el.dataset.ariaIt : el.dataset.ariaEn);
+    });
+  }
+
+  btn.hidden = false;                       // only now is the control functional
+  btn.addEventListener('click', () => {
+    apply(root.dataset.lang === 'it' ? 'en' : 'it');
+  });
+}
+
 initNav();
 initVideos();
 initHero();
+initLang();

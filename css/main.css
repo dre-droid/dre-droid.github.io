@@ -122,6 +122,35 @@ code {
 }
 
 /* ============================================================
+   LANGUAGE
+   ============================================================ */
+/* Both languages sit in the markup; CSS decides which one is visible, so the
+   switch needs no string handling and the copy stays editable in place.
+   `data-lang="en"` is written into the HTML itself, not set by script — English
+   is the default with JavaScript off and is never chosen by locale sniffing. */
+:root[data-lang="en"] [lang="it"],
+:root[data-lang="it"] [lang="en"] { display: none; }
+
+.langtoggle {
+  font: inherit; font-family: var(--mono);
+  background: none; border: 0; cursor: pointer;
+  display: flex; align-items: center; gap: 0.3rem;
+  padding: 0.35rem 0;          /* clears the 24px WCAG 2.2 target minimum */
+  letter-spacing: 0.08em;
+  color: var(--fg-dim);
+}
+.langtoggle__sep { opacity: 0.45; }
+.langtoggle__opt { transition: color 0.2s; }
+/* The active language is the accent one; the other reads as the thing you can
+   click. Marking neither would leave the control ambiguous. */
+:root[data-lang="en"] .langtoggle__opt[data-lang-opt="en"],
+:root[data-lang="it"] .langtoggle__opt[data-lang-opt="it"] { color: var(--accent); }
+.langtoggle:hover .langtoggle__opt,
+.langtoggle:focus-visible .langtoggle__opt { color: var(--fg); }
+:root[data-lang="en"] .langtoggle:hover .langtoggle__opt[data-lang-opt="en"],
+:root[data-lang="it"] .langtoggle:hover .langtoggle__opt[data-lang-opt="it"] { color: var(--accent); }
+
+/* ============================================================
    TOP NAV
    ============================================================ */
 .topnav {
@@ -133,7 +162,7 @@ code {
   transition: border-color 0.25s, background 0.25s;
 }
 .topnav__inner {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: flex-start;
   gap: 1rem;
   max-width: var(--wrap);
   margin-inline: auto;

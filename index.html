@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,21 +20,30 @@
 <link rel="canonical" href="https://andrea-mastroberti.com/">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=5">
+<link rel="stylesheet" href="css/main.css?v=6">
 </head>
 <body>
 
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main"><span lang="en">Skip to content</span><span lang="it">Vai al contenuto</span></a>
 
 <nav class="topnav" aria-label="Sections">
   <div class="topnav__inner">
+    <!-- Left slot is free at the top of the page: the masthead name only fades in
+         on scroll, and is hidden outright on mobile. `hidden` until the script
+         removes it, so a dead control never ships to a no-JS visitor. -->
+    <button class="langtoggle" type="button" data-lang-toggle hidden
+            aria-label="Passa all'italiano">
+      <span class="langtoggle__opt" data-lang-opt="en">EN</span>
+      <span class="langtoggle__sep" aria-hidden="true">/</span>
+      <span class="langtoggle__opt" data-lang-opt="it">IT</span>
+    </button>
     <a class="topnav__name" href="#top">Andrea Mastroberti</a>
     <ul class="topnav__list">
-      <li><a href="#thesis">Thesis</a></li>
+      <li><a href="#thesis"><span lang="en">Thesis</span><span lang="it">Tesi</span></a></li>
       <li><a href="#essim">FFmpeg</a></li>
       <li><a href="#drone">Drone</a></li>
-      <li><a href="#pendulum">Pendulum</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#pendulum"><span lang="en">Pendulum</span><span lang="it">Pendolo</span></a></li>
+      <li><a href="#contact"><span lang="en">Contact</span><span lang="it">Contatti</span></a></li>
     </ul>
   </div>
 </nav>
@@ -50,49 +59,57 @@
     </picture>
     <canvas class="hero__canvas" aria-hidden="true"></canvas>
     <p class="hero__vizlabel">
-      <span data-viz-caption>nuScenes LiDAR sweep · drag to orbit</span>
+      <span data-viz-caption><span lang="en">nuScenes LiDAR sweep · drag to orbit</span><span lang="it">Scansione LiDAR nuScenes · trascina per ruotare</span></span>
     </p>
   </div>
 
   <div class="hero__body">
     <h1 class="hero__name">Andrea Mastroberti</h1>
     <p class="hero__claim">
-      Teaching machines to see without human annotation.
+      <span lang="en">Teaching machines to see without human annotation.</span>
+      <span lang="it">Insegnare alle macchine a vedere senza annotazione umana.</span>
     </p>
     <p class="hero__cred">
-      MS Computer Science, Politecnico di Milano
+      <span lang="en">MS Computer Science, Politecnico di Milano</span>
+      <span lang="it">Laurea Magistrale in Computer Science, Politecnico di Milano</span>
     </p>
   </div>
 </header>
 
 <!-- ───────────────────────── NOW ───────────────────────── -->
 <section class="now" aria-label="Current status">
-  <h2 class="now__h">Now</h2>
+  <h2 class="now__h"><span lang="en">Now</span><span lang="it">Attualmente</span></h2>
   <p>
-    MS thesis with <strong><a href="https://aida.polimi.it/" rel="noopener">AIDA</a></strong> and <strong><a href="https://niulinx.ai" rel="noopener">Niulinx</a></strong>
-    — joint self-supervised pretraining on unlabelled LiDAR and camera data.
+    <span lang="en">MS thesis with <strong><a href="https://aida.polimi.it/" rel="noopener">AIDA</a></strong> and <strong><a href="https://niulinx.ai" rel="noopener">Niulinx</a></strong>
+    — joint self-supervised pretraining on unlabelled LiDAR and camera data.</span>
+    <span lang="it">Tesi magistrale con <strong><a href="https://aida.polimi.it/" rel="noopener">AIDA</a></strong> e <strong><a href="https://niulinx.ai" rel="noopener">Niulinx</a></strong>
+    — pretraining self-supervised congiunto su dati LiDAR e camera non etichettati.</span>
   </p>
   <p>
-    Graduating <strong>December 2026</strong>. Looking for ML and robotics roles.
+    <span lang="en">Graduating <strong>December 2026</strong>. Looking for ML and robotics roles.</span>
+    <span lang="it">Laurea a <strong>dicembre 2026</strong>. Cerco ruoli in ML e robotica.</span>
   </p>
 </section>
 
 <!-- ───────────────────────── THESIS ───────────────────────── -->
 <section class="work work--lead" id="thesis">
   <div class="work__head">
-    <p class="work__kicker">MS Thesis <span class="sep">·</span> AIDA / Niulinx <span class="sep">·</span> In Progress</p>
-    <h2 class="work__h">Multimodal pretraining for autonomous driving</h2>
+    <p class="work__kicker"><span lang="en">MS Thesis <span class="sep">·</span> AIDA / Niulinx <span class="sep">·</span> In Progress</span><span lang="it">Tesi magistrale <span class="sep">·</span> AIDA / Niulinx <span class="sep">·</span> In corso</span></p>
+    <h2 class="work__h"><span lang="en">Multimodal pretraining for autonomous driving</span><span lang="it">Pretraining multimodale per la guida autonoma</span></h2>
   </div>
 
   <div class="work__body">
     <p>
-      3D bounding box annotations are expensive, but raw driving logs are plentiful. My thesis adapts <strong>UniTR</strong> to pretrain a single transformer backbone directly on paired, unlabelled LiDAR and camera streams.
+      <span lang="en">3D bounding box annotations are expensive, but raw driving logs are plentiful. My thesis adapts <strong>UniTR</strong> to pretrain a single transformer backbone directly on paired, unlabelled LiDAR and camera streams.</span>
+      <span lang="it">Annotare bounding box 3D è costoso, mentre i log di guida grezzi abbondano. La mia tesi adatta <strong>UniTR</strong> per pre-addestrare un unico backbone transformer direttamente su flussi LiDAR e camera accoppiati e non etichettati.</span>
     </p>
     <p>
-      The core work is handling the structural asymmetry between sparse 3D point clouds and dense 2D images, avoiding representation collapse during self-supervised training, and designing compute-efficient evaluation benchmarks.
+      <span lang="en">The core work is handling the structural asymmetry between sparse 3D point clouds and dense 2D images, avoiding representation collapse during self-supervised training, and designing compute-efficient evaluation benchmarks.</span>
+      <span lang="it">Il nucleo del lavoro è gestire l'asimmetria strutturale fra nuvole di punti 3D sparse e immagini 2D dense, evitare il collasso delle rappresentazioni durante il training self-supervised e progettare benchmark di valutazione efficienti dal punto di vista computazionale.</span>
     </p>
     <p class="work__bridge">
-      While tested on driving data, learning unified metric-RGB representations applies equally well to indoor robotics and spatial computing.
+      <span lang="en">While tested on driving data, learning unified metric-RGB representations applies equally well to indoor robotics and spatial computing.</span>
+      <span lang="it">Anche se testato su dati di guida, imparare rappresentazioni unificate metrico-RGB vale altrettanto per la robotica indoor e lo spatial computing.</span>
     </p>
   </div>
 
@@ -100,8 +117,9 @@
     <video class="work__video" autoplay muted loop playsinline preload="none"
            poster="assets/img/thesis-poster.jpg" width="1392" height="876"
            data-autoloop data-src="assets/video/thesis.mp4"
-           aria-label="Feature evolution over 30 pretraining epochs projected to RGB via PCA."></video>
-    <figcaption>Thirty epochs of pretraining without labels (features projected to RGB via PCA). By epoch 30, the network cleanly separates road surfaces, vegetation, and buildings.</figcaption>
+           aria-label="Feature evolution over 30 pretraining epochs projected to RGB via PCA."
+           data-aria-it="Evoluzione delle feature su 30 epoche di pretraining, proiettate in RGB tramite PCA."></video>
+    <figcaption><span lang="en">Thirty epochs of pretraining without labels (features projected to RGB via PCA). By epoch 30, the network cleanly separates road surfaces, vegetation, and buildings.</span><span lang="it">Trenta epoche di pretraining senza etichette (feature proiettate in RGB tramite PCA). All'epoca 30 la rete separa nettamente strada, vegetazione ed edifici.</span></figcaption>
   </figure>
 </section>
 
@@ -109,24 +127,27 @@
 <section class="work" id="essim">
   <div class="work__head">
     <p class="work__kicker">Google Summer of Code 2024 <span class="sep">·</span> FFmpeg</p>
-    <h2 class="work__h">Fast perceptual metrics in FFmpeg</h2>
+    <h2 class="work__h"><span lang="en">Fast perceptual metrics in FFmpeg</span><span lang="it">Metriche percettive veloci in FFmpeg</span></h2>
   </div>
 
   <div class="work__body">
     <p>
-      Implemented the <strong>enhanced SSIM (eSSIM)</strong> filter in C for FFmpeg.
+      <span lang="en">Implemented the <strong>enhanced SSIM (eSSIM)</strong> filter in C for FFmpeg.</span>
+      <span lang="it">Implementato in C il filtro <strong>enhanced SSIM (eSSIM)</strong> per FFmpeg.</span>
     </p>
     <p>
-      The standard sliding-window implementation runs in <code>O(mnk²)</code> for an <code>m × n</code> frame and a <code>k × k</code> window. Rewriting the statistics with <strong>summed-area tables</strong> reduced this to <code>O(mn)</code>, requiring just four memory lookups per window regardless of its size.
+      <span lang="en">The standard sliding-window implementation runs in <code>O(mnk²)</code> for an <code>m × n</code> frame and a <code>k × k</code> window. Rewriting the statistics with <strong>summed-area tables</strong> reduced this to <code>O(mn)</code>, requiring just four memory lookups per window regardless of its size.</span>
+      <span lang="it">L'implementazione standard a finestra scorrevole costa <code>O(mnk²)</code> per un frame <code>m × n</code> e una finestra <code>k × k</code>. Riscrivendo le statistiche con le <strong>summed-area table</strong> il costo scende a <code>O(mn)</code>: quattro accessi in memoria per finestra, indipendentemente dalla sua dimensione.</span>
     </p>
 
     <p>
-      Added multithreading and configurable pooling, and upstreamed the patch to <code>ffmpeg-devel</code>.
+      <span lang="en">Added multithreading and configurable pooling, and upstreamed the patch to <code>ffmpeg-devel</code>.</span>
+      <span lang="it">Aggiunti multithreading e pooling configurabile, e proposta la patch upstream su <code>ffmpeg-devel</code>.</span>
     </p>
     <ul class="work__links">
-      <li><a href="https://gist.github.com/dre-droid/effd22ce0f7ed13914d446367b4bab64" rel="noopener">Implementation</a></li>
-      <li><a href="https://trac.ffmpeg.org/wiki/SponsoringPrograms/GSoC/2024/Results" rel="noopener">GSoC 2024 Results</a></li>
-      <li><a href="https://summerofcode.withgoogle.com/archive/2024/projects/erwtAKxC" rel="noopener">GSoC Archive</a></li>
+      <li><a href="https://gist.github.com/dre-droid/effd22ce0f7ed13914d446367b4bab64" rel="noopener"><span lang="en">Implementation</span><span lang="it">Implementazione</span></a></li>
+      <li><a href="https://trac.ffmpeg.org/wiki/SponsoringPrograms/GSoC/2024/Results" rel="noopener"><span lang="en">GSoC 2024 Results</span><span lang="it">Risultati GSoC 2024</span></a></li>
+      <li><a href="https://summerofcode.withgoogle.com/archive/2024/projects/erwtAKxC" rel="noopener"><span lang="en">GSoC Archive</span><span lang="it">Archivio GSoC</span></a></li>
     </ul>
   </div>
 </section>
@@ -134,19 +155,21 @@
 <!-- ───────────────────────── DRONE CONTEST ───────────────────────── -->
 <section class="work" id="drone">
   <div class="work__head">
-    <p class="work__kicker">Leonardo Drone Contest 2025 <span class="sep">·</span> 2nd Place Nationwide</p>
-    <h2 class="work__h">Autonomous multi-agent target search</h2>
+    <p class="work__kicker"><span lang="en">Leonardo Drone Contest 2025 <span class="sep">·</span> 2nd Place Nationwide</span><span lang="it">Leonardo Drone Contest 2025 <span class="sep">·</span> 2° posto nazionale</span></p>
+    <h2 class="work__h"><span lang="en">Autonomous multi-agent target search</span><span lang="it">Ricerca autonoma multi-agente di target</span></h2>
   </div>
 
   <div class="work__body">
     <p>
-      A ground vehicle, a drone, and a fixed Pan-Tilt-Zoom (PTZ) camera cooperating to map an unknown arena and locate targets with zero human input.
+      <span lang="en">A ground vehicle, a drone, and a fixed Pan-Tilt-Zoom (PTZ) camera cooperating to map an unknown arena and locate targets with zero human input.</span>
+      <span lang="it">Un veicolo terrestre, un drone e una camera Pan-Tilt-Zoom (PTZ) fissa che cooperano per mappare un'arena sconosciuta e localizzare target senza alcun intervento umano.</span>
     </p>
     <p>
-      I built the <strong>PTZ vision system</strong>: an active search routine to scan the field, detect candidate 30 × 30 cm QR codes, and dynamically zoom in to decode and localize them in real time.
+      <span lang="en">I built the <strong>PTZ vision system</strong>: an active search routine to scan the field, detect candidate 30 × 30 cm QR codes, and dynamically zoom in to decode and localize them in real time.</span>
+      <span lang="it">Ho realizzato il <strong>sistema di visione PTZ</strong>: una routine di ricerca attiva che scandaglia il campo, individua candidati QR code da 30 × 30 cm e zooma dinamicamente per decodificarli e localizzarli in tempo reale.</span>
     </p>
     <ul class="work__links">
-      <li><a href="https://www.repubblica.it/tecnologia/dossier/italian-tech-week-2025/2025/10/02/video/itw_25_-_premio_leonardo_la_cerimonia_di_premiazione_del_drone_contest-424885891/" rel="noopener">Coverage (Italian Tech Week)</a></li>
+      <li><a href="https://www.repubblica.it/tecnologia/dossier/italian-tech-week-2025/2025/10/02/video/itw_25_-_premio_leonardo_la_cerimonia_di_premiazione_del_drone_contest-424885891/" rel="noopener"><span lang="en">Coverage (Italian Tech Week)</span><span lang="it">La premiazione (Italian Tech Week)</span></a></li>
     </ul>
   </div>
 
@@ -154,27 +177,30 @@
     <video class="work__video" autoplay muted loop playsinline preload="none"
            poster="assets/img/drone-poster.jpg" width="1280" height="720"
            data-autoloop data-poster-mobile="assets/img/drone-poster-mobile.jpg"
-           aria-label="UGV, UAV, and PTZ camera collaborating during the Leonardo Drone Contest.">
+           aria-label="UGV, UAV, and PTZ camera collaborating during the Leonardo Drone Contest."
+           data-aria-it="UGV, UAV e camera PTZ che collaborano durante il Leonardo Drone Contest.">
       <source data-src="assets/video/drone-mobile.mp4" media="(max-width: 720px)" type="video/mp4">
       <source data-src="assets/video/drone-desktop.mp4" type="video/mp4">
     </video>
-    <figcaption>The system running during the contest.</figcaption>
+    <figcaption><span lang="en">The system running during the contest.</span><span lang="it">Il sistema in funzione durante la gara.</span></figcaption>
   </figure>
 </section>
 
 <!-- ───────────────────────── FURUTA PENDULUM ───────────────────────── -->
 <section class="work" id="pendulum">
   <div class="work__head">
-    <p class="work__kicker">Lab Project <span class="sep">·</span> Reinforcement Learning <span class="sep">·</span> Robotics</p>
-    <h2 class="work__h">Furuta pendulum from scratch</h2>
+    <p class="work__kicker"><span lang="en">Lab Project <span class="sep">·</span> Reinforcement Learning <span class="sep">·</span> Robotics</span><span lang="it">Progetto di laboratorio <span class="sep">·</span> Reinforcement Learning <span class="sep">·</span> Robotica</span></p>
+    <h2 class="work__h"><span lang="en">Furuta pendulum from scratch</span><span lang="it">Pendolo di Furuta da zero</span></h2>
   </div>
 
   <div class="work__body">
     <p>
-      A rotary inverted pendulum built end to end: 3D-printed mechanics, motor control circuitry, and embedded policy inference on a Raspberry Pi.
+      <span lang="en">A rotary inverted pendulum built end to end: 3D-printed mechanics, motor control circuitry, and embedded policy inference on a Raspberry Pi.</span>
+      <span lang="it">Un pendolo inverso rotativo costruito end to end: meccanica stampata in 3D, elettronica di controllo del motore e inferenza della policy a bordo di un Raspberry Pi.</span>
     </p>
     <p>
-      Trained a swing-up and balance policy in simulation using Stable-Baselines3 (PPO), then tuned domain randomization parameters to bridge the sim-to-real gap on the physical rig.
+      <span lang="en">Trained a swing-up and balance policy in simulation using Stable-Baselines3 (PPO), then tuned domain randomization parameters to bridge the sim-to-real gap on the physical rig.</span>
+      <span lang="it">Policy di swing-up e bilanciamento addestrata in simulazione con Stable-Baselines3 (PPO), poi taratura dei parametri di domain randomization per colmare il divario sim-to-real sul banco fisico.</span>
     </p>
   </div>
 
@@ -182,14 +208,15 @@
     <video class="work__video" autoplay muted loop playsinline preload="none"
            poster="assets/img/pendulum-poster.jpg" width="1280" height="720"
            data-autoloop data-src="assets/video/pendulum.mp4"
-           aria-label="Furuta pendulum balancing under real-time RL control."></video>
-    <figcaption>Trained policy balancing on the physical bench.</figcaption>
+           aria-label="Furuta pendulum balancing under real-time RL control."
+           data-aria-it="Pendolo di Furuta in equilibrio sotto controllo RL in tempo reale."></video>
+    <figcaption><span lang="en">Trained policy balancing on the physical bench.</span><span lang="it">La policy addestrata mantiene il bilanciamento sul banco.</span></figcaption>
   </figure>
 </section>
 
 <!-- ───────────────────────── CONTACT ───────────────────────── -->
 <footer class="contact" id="contact">
-  <h2 class="contact__h">Contact</h2>
+  <h2 class="contact__h"><span lang="en">Contact</span><span lang="it">Contatti</span></h2>
   <ul class="contact__links">
     <li><a href="mailto:andrea.mastroberti@outlook.com">andrea.mastroberti@outlook.com</a></li>
     <li><a href="https://www.linkedin.com/in/andrea-mastroberti" rel="me noopener">linkedin.com/in/andrea-mastroberti</a></li>
@@ -197,12 +224,13 @@
   </ul>
 
   <p class="colophon">
-    LiDAR sweeps and camera frames from <a href="https://www.nuscenes.org/" rel="noopener">nuScenes</a> by Motional (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license noopener">CC BY-NC-SA 4.0</a>). Built without frameworks; source on <a href="https://github.com/dre-droid/dre-droid.github.io" rel="noopener">GitHub</a>.
+    <span lang="en">LiDAR sweeps and camera frames from <a href="https://www.nuscenes.org/" rel="noopener">nuScenes</a> by Motional (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license noopener">CC BY-NC-SA 4.0</a>). Built without frameworks; source on <a href="https://github.com/dre-droid/dre-droid.github.io" rel="noopener">GitHub</a>.</span>
+    <span lang="it">Scansioni LiDAR e immagini dal dataset <a href="https://www.nuscenes.org/" rel="noopener">nuScenes</a> di Motional (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="license noopener">CC BY-NC-SA 4.0</a>). Realizzato senza framework; sorgente su <a href="https://github.com/dre-droid/dre-droid.github.io" rel="noopener">GitHub</a>.</span>
   </p>
 </footer>
 
 </main>
 
-<script type="module" src="js/main.js?v=3"></script>
+<script type="module" src="js/main.js?v=4"></script>
 </body>
 </html>

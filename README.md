@@ -46,6 +46,25 @@ node scripts/capture-posters.mjs /tmp/hero.png 1440 900 1
 
 Video is transcoded with ffmpeg to H.264, `-an`, `+faststart`, `-g 48`.
 
+## Language
+
+The page ships English and Italian in the same document. `<html data-lang="en">`
+is written into the markup, and CSS hides whichever language is not selected:
+
+```css
+:root[data-lang="en"] [lang="it"], :root[data-lang="it"] [lang="en"] { display: none; }
+```
+
+To add or edit copy, edit the two `<span lang="en">` / `<span lang="it">` siblings
+in place — no string tables, no build step. The only text that cannot live in the
+DOM twice is `aria-label` on the videos; those carry a `data-aria-it` twin that
+`initLang()` swaps.
+
+**English is the default on every load.** No `navigator.language` sniffing, no geo
+lookup, and no stored preference — a reload always comes back in English, and
+switching is an explicit click. The toggle is `hidden` in the markup and unhidden
+by script, so a no-JS visitor gets English rather than a dead control.
+
 ## Notes
 
 - **Point cloud format.** Quantised to 13 bits, sorted by Morton code so spatial
